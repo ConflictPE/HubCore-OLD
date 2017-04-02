@@ -23,6 +23,7 @@ use core\gui\ChestGUI;
 use core\gui\item\GUIItem;
 use hubcore\gui\item\PotatoGun;
 use hubcore\gui\item\TNTLauncher;
+use pocketmine\network\protocol\ContainerClosePacket;
 
 class CosmeticGUIContainer extends ChestGUI {
 
@@ -34,7 +35,9 @@ class CosmeticGUIContainer extends ChestGUI {
 
 	public function onSelect($slot, GUIItem $item, CorePlayer $player) {
 		$player->getInventory()->setItem(5, clone $item);
-		$this->close($player);
+		$pk = new ContainerClosePacket();
+		$pk->windowid = $player->getWindowId($this);
+		$player->dataPacket($pk);
 	}
 
 }

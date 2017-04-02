@@ -19,7 +19,6 @@
 namespace hubcore;
 
 use core\CorePlayer;
-use core\gui\item\GUIItem;
 use hubcore\entity\LaunchedItem;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -38,7 +37,6 @@ class HubCorePlayer extends CorePlayer {
 	public function onInteract(PlayerInteractEvent $event) {
 		$item = $event->getItem();
 		if($this->getState() === CorePlayer::STATE_LOBBY) {
-			$event->setCancelled(true);
 			if($item->getId() === Item::COMPASS) {
 				$this->sendMessage(TextFormat::GOLD . "- " . TextFormat::GREEN . "Coming soon...");
 			} elseif($item->getId() === Item::CLOCK) {
@@ -47,6 +45,8 @@ class HubCorePlayer extends CorePlayer {
 			} elseif($item->getId() === Item::BED) {
 				$this->kill();
 				$this->sendTranslatedMessage("HUB_COMMAND", [], true);
+			} else {
+				parent::onInteract($event);
 			}
 		}
 	}

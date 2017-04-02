@@ -18,9 +18,14 @@
 
 namespace hubcore;
 
+use core\gui\ChestGUI;
+use core\gui\item\GUIItem;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerCreationEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\server\DataPacketReceiveEvent;
+use pocketmine\inventory\PlayerInventory;
+use pocketmine\network\protocol\ContainerSetSlotPacket;
 
 class HubCoreListener implements Listener {
 
@@ -56,6 +61,24 @@ class HubCoreListener implements Listener {
 	public function onJoin(PlayerJoinEvent $event) {
 		$player = $event->getPlayer();
 		$this->plugin->giveLobbyItems($player);
+	}
+
+	/**
+	 * Handle data packet receive
+	 *
+	 * @param DataPacketReceiveEvent $event
+	 */
+	public function onDataPacketReceive(DataPacketReceiveEvent $event) {
+		$pk = $event->getPacket();
+		if($pk instanceof ContainerSetSlotPacket) {
+			/** @var HubCorePlayer $player */
+			$player = $event->getPlayer();
+			$inv = $player->getWindowById($pk->windowid);
+			if($inv instanceof PlayerInventory and !$inv->contains($pk->item)) {
+				$event->setCancelled(true);
+				$inv->sendContents($player);
+			}
+		}
 	}
 
 }
