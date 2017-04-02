@@ -19,31 +19,18 @@
 namespace hubcore;
 
 use core\CorePlayer;
-use hubcore\entity\LaunchedPotato;
-use hubcore\entity\ThrowableTNT;
-use pocketmine\entity\Entity;
+use core\gui\item\GUIItem;
+use hubcore\entity\LaunchedItem;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\Item;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\ListTag;
-use pocketmine\nbt\tag\ShortTag;
 use pocketmine\utils\TextFormat;
 
 class HubCorePlayer extends CorePlayer {
-
-	/** @var int */
-	private $lastTntThrowTime = 0;
-
-	/**
-	 * @var int
-	 */
-	private $lastPotatoLaunchTime = 0;
 
 	/**
 	 * @param PlayerInteractEvent $event
@@ -57,62 +44,6 @@ class HubCorePlayer extends CorePlayer {
 			} elseif($item->getId() === Item::CLOCK) {
 				$this->setPlayersVisible(!$this->hasPlayersVisible());
 				$this->sendTranslatedMessage("TOGGLE_PLAYERS", [], true);
-			} elseif($item->getId() === Item::TNT) {
-				if(($timeLeft = ($time = microtime(true)) - $this->lastTntThrowTime) >= 5) {
-					$this->lastTntThrowTime = microtime(true);
-					$e = Entity::createEntity("ThrowableTNT", $this->getLevel(), new CompoundTag("", [
-						"Pos" => new ListTag("Pos", [
-							new DoubleTag("", $this->x),
-							new DoubleTag("", $this->y),
-							new DoubleTag("", $this->z)
-						]),
-						"Motion" => new ListTag("Motion", [
-							new DoubleTag("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
-							new DoubleTag("", -sin($this->pitch / 180 * M_PI)),
-							new DoubleTag("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
-						]),
-						"Rotation" => new ListTag("Rotation", [
-							new FloatTag("", $this->yaw),
-							new FloatTag("", $this->pitch)
-						]),
-					]));
-					if($e instanceof ThrowableTNT) {
-						$e->spawnToAll();
-						$e->setMotion($e->getMotion()->multiply(1.1));
-					} else {
-						$e->close();
-					}
-				} else {
-					$this->sendTip(TextFormat::YELLOW . "Cooldown " . round(5 - $timeLeft, 1) . "s");
-				}
-			} elseif($item->getId() === Item::POTATO) {
-				if(($timeLeft = ($time = microtime(true)) - $this->lastPotatoLaunchTime) >= 3) {
-					$this->lastPotatoLaunchTime = microtime(true);
-					$e = Entity::createEntity("LaunchedPotato", $this->getLevel(), new CompoundTag("", [
-						"Pos" => new ListTag("Pos", [
-							new DoubleTag("", $this->x),
-							new DoubleTag("", $this->y),
-							new DoubleTag("", $this->z)
-						]),
-						"Motion" => new ListTag("Motion", [
-							new DoubleTag("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
-							new DoubleTag("", -sin($this->pitch / 180 * M_PI)),
-							new DoubleTag("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
-						]),
-						"Rotation" => new ListTag("Rotation", [
-							new FloatTag("", $this->yaw),
-							new FloatTag("", $this->pitch)
-						])
-					]), $this);
-					if($e instanceof LaunchedPotato) {
-						$e->spawnToAll();
-						$e->setMotion($e->getMotion()->multiply(1.4));
-					} else {
-						$e->close();
-					}
-				} else {
-					$this->sendTip(TextFormat::YELLOW . "Cooldown " . round(3 - $timeLeft, 1) . "s");
-				}
 			} elseif($item->getId() === Item::BED) {
 				$this->kill();
 				$this->sendTranslatedMessage("HUB_COMMAND", [], true);
@@ -129,7 +60,8 @@ class HubCorePlayer extends CorePlayer {
 	public function attack($damage, EntityDamageEvent $source) {
 		$source->setCancelled(true);
 		if($source instanceof EntityDamageByChildEntityEvent) {
-			if($source->getChild() instanceof LaunchedPotato) {
+			$child = $source->getChild();
+			if($child instanceof LaunchedItem and $child->getItem()->getId() === Item::POTATO) {
 				$e = $source->getDamager();
 				$this->knockBack($e, 0, $this->x - $e->x, $this->z - $e->z, 0.6);
 				$this->setLastDamagedTime();
@@ -152,14 +84,21 @@ class HubCorePlayer extends CorePlayer {
 		$event->setCancelled(true);
 	}
 
+	/**
+	 * @param PlayerDropItemEvent $event
+	 */
+	public function onDrop(PlayerDropItemEvent $event) {
+		$event->setCancelled(true);
+	}
+
 	public function kill($forReal = false) {
-		if(!$forReal) {
+		if($forReal) {
+			parent::kill();
+		} else {
 			$this->setMaxHealth(20);
 			$this->setHealth($this->getMaxHealth());
 			$this->setFood($this->getMaxFood());
 			$this->teleport($this->getLevel()->getSpawnLocation()->add(0.5, 0, 0.5));
-		} else {
-			parent::kill();
 		}
 	}
 

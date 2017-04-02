@@ -19,8 +19,10 @@
 namespace hubcore;
 
 use core\Utils;
+use hubcore\entity\LaunchedItem;
 use hubcore\entity\LaunchedPotato;
 use hubcore\entity\ThrowableTNT;
+use hubcore\gui\item\CosmeticsSelector;
 use pocketmine\entity\Entity;
 use pocketmine\item\Item;
 use pocketmine\Player;
@@ -56,7 +58,7 @@ class Main extends PluginBase {
 		if(!is_dir($this->getDataFolder() . "data")) @mkdir($this->getDataFolder() . "data");
 		if(!is_dir($this->getDataFolder() . "data" . DIRECTORY_SEPARATOR . "skins")) @mkdir($this->getDataFolder() . "data" . DIRECTORY_SEPARATOR . "skins");
 		Entity::registerEntity(ThrowableTNT::class);
-		Entity::registerEntity(LaunchedPotato::class);
+		Entity::registerEntity(LaunchedItem::class);
 		$this->loadConfigs();
 		$this->setLobbyItems();
 		$this->setListener();
@@ -118,16 +120,14 @@ class Main extends PluginBase {
 			Item::get(Item::COMPASS),
 			Item::get(Item::AIR),
 			Item::get(Item::CLOCK),
-			Item::get(Item::TNT),
-			Item::get(Item::POTATO),
+			new CosmeticsSelector(),
+			Item::get(Item::AIR),
 			Item::get(Item::AIR),
 			Item::get(Item::BED)
 		];
-		$this->lobbyItems[1]->setCustomName(Utils::translateColors("&l&dServer Selector"));
-		$this->lobbyItems[3]->setCustomName(Utils::translateColors("&l&6Toggle players"));
-		$this->lobbyItems[4]->setCustomName(Utils::translateColors("&l&cThrowable TNT"));
-		$this->lobbyItems[5]->setCustomName(Utils::translateColors("&l&ePotato Launcher"));
-		$this->lobbyItems[7]->setCustomName(Utils::translateColors("&l&aWarp to spawn"));
+		$this->lobbyItems[1]->setCustomName(Utils::translateColors("&l&dServer Selector&r"));
+		$this->lobbyItems[3]->setCustomName(Utils::translateColors("&l&6Toggle players&r"));
+		$this->lobbyItems[7]->setCustomName(Utils::translateColors("&l&aWarp to spawn&r"));
 	}
 
 	/**
