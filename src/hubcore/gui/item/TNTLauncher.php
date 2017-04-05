@@ -33,7 +33,7 @@ use pocketmine\nbt\tag\ListTag;
 class TNTLauncher extends GUIItem {
 
 	public function __construct(ChestGUI $parent = null) {
-		parent::__construct(Item::get(Item::TNT, 0, 1), $parent);
+		parent::__construct(Item::get(Item::GUNPOWDER, 0, 1), $parent);
 		$this->setCustomName(Utils::translateColors("&l&cThrowable TNT"));
 	}
 

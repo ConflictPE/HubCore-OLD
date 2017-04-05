@@ -19,7 +19,9 @@
 namespace hubcore;
 
 use core\CorePlayer;
+use core\gui\ChestGUI;
 use hubcore\entity\LaunchedItem;
+use hubcore\gui\containers\CosmeticGUIContainer;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
@@ -27,9 +29,19 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\Item;
+use pocketmine\network\SourceInterface;
 use pocketmine\utils\TextFormat;
 
 class HubCorePlayer extends CorePlayer {
+
+	/** GUI Container types */
+	const GUI_TYPE_COSMETICS = "cosmetics";
+
+	public function initEntity() {
+		parent::initEntity();
+
+		$this->addGuiContainer(new CosmeticGUIContainer($this), self::GUI_TYPE_COSMETICS, true);
+	}
 
 	/**
 	 * @param PlayerInteractEvent $event

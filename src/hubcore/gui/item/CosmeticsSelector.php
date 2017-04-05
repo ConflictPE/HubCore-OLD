@@ -20,9 +20,9 @@ namespace hubcore\gui\item;
 
 use core\CorePlayer;
 use core\gui\ChestGUI;
-use hubcore\gui\containers\CosmeticGUIContainer;
 use core\gui\item\GUIItem;
 use core\Utils;
+use hubcore\HubCorePlayer;
 use pocketmine\item\Item;
 
 class CosmeticsSelector extends GUIItem {
@@ -37,7 +37,7 @@ class CosmeticsSelector extends GUIItem {
 	}
 
 	public function onClick(CorePlayer $player) {
-		$player->addWindow(new CosmeticGUIContainer($player));
+		$player->addWindow($player->getGuiContainer(HubCorePlayer::GUI_TYPE_COSMETICS));
 	}
 
 }

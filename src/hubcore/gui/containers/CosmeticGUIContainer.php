@@ -23,9 +23,13 @@ use core\gui\ChestGUI;
 use core\gui\item\GUIItem;
 use hubcore\gui\item\PotatoGun;
 use hubcore\gui\item\TNTLauncher;
+use pocketmine\item\enchantment\Enchantment;
 use pocketmine\network\protocol\ContainerClosePacket;
 
 class CosmeticGUIContainer extends ChestGUI {
+
+	/** @var int|null */
+	protected $selectedSlot = null;
 
 	public function __construct(CorePlayer $player) {
 		parent::__construct($player);
@@ -34,7 +38,16 @@ class CosmeticGUIContainer extends ChestGUI {
 	}
 
 	public function onSelect($slot, GUIItem $item, CorePlayer $player) {
+		if($this->selectedSlot !== null) {
+			/** @var GUIItem $oldItem */
+			$oldItem = $this->getItem($this->selectedSlot);
+			$oldItem->removeEnchantmentEffect();
+			$this->setItem($this->selectedSlot, $oldItem);
+		}
 		$player->getInventory()->setItem(5, clone $item);
+		$this->selectedSlot = $slot;
+		$item->giveEnchantmentEffect();
+		$this->setItem($slot, $item);
 		$pk = new ContainerClosePacket();
 		$pk->windowid = $player->getWindowId($this);
 		$player->dataPacket($pk);
