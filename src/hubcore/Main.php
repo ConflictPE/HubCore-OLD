@@ -23,6 +23,7 @@ use hubcore\entity\LaunchedItem;
 use hubcore\entity\LaunchedPotato;
 use hubcore\entity\ThrowableTNT;
 use hubcore\gui\item\CosmeticsSelector;
+use hubcore\gui\item\playertoggle\TogglePlayersOff;
 use pocketmine\entity\Entity;
 use pocketmine\item\Item;
 use pocketmine\Player;
@@ -116,18 +117,18 @@ class Main extends PluginBase {
 	 */
 	public function setLobbyItems() {
 		$this->lobbyItems = [
-			Item::get(Item::AIR),
 			Item::get(Item::COMPASS),
+			Item::get(Item::AIR),
 			Item::get(Item::AIR),
 			Item::get(Item::CLOCK),
 			new CosmeticsSelector(),
 			Item::get(Item::AIR),
 			Item::get(Item::AIR),
+			new TogglePlayersOff(),
 			Item::get(Item::BED)
 		];
-		$this->lobbyItems[1]->setCustomName(Utils::translateColors("&l&dServer Selector&r"));
-		$this->lobbyItems[3]->setCustomName(Utils::translateColors("&l&6Toggle players&r"));
-		$this->lobbyItems[7]->setCustomName(Utils::translateColors("&l&aWarp to spawn&r"));
+		$this->lobbyItems[0]->setCustomName(Utils::translateColors("&l&dServer Selector&r"));
+		$this->lobbyItems[8]->setCustomName(Utils::translateColors("&l&aWarp to spawn&r"));
 	}
 
 	/**
