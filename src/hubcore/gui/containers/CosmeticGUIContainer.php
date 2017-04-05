@@ -21,8 +21,8 @@ namespace hubcore\gui\containers;
 use core\CorePlayer;
 use core\gui\container\ChestGUI;
 use core\gui\item\GUIItem;
-use hubcore\gui\item\PotatoGun;
-use hubcore\gui\item\TNTLauncher;
+use hubcore\gui\item\gadgets\PotatoGun;
+use hubcore\gui\item\gadgets\TNTLauncher;
 use pocketmine\network\protocol\ContainerClosePacket;
 
 class CosmeticGUIContainer extends ChestGUI {

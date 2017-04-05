@@ -1,7 +1,7 @@
 <?php
 
 /**
- * HubCore – TNTLauncher.php
+ * HubCore – PotatoGun.php
  *
  * Copyright (C) 2017 Jack Noordhuis
  *
@@ -16,12 +16,12 @@
  *
  */
 
-namespace hubcore\gui\item;
+namespace hubcore\gui\item\gadgets;
 
 use core\CorePlayer;
 use core\gui\item\GUIItem;
 use core\Utils;
-use hubcore\entity\ThrowableTNT;
+use hubcore\entity\LaunchedItem;
 use hubcore\gui\containers\CosmeticGUIContainer;
 use pocketmine\entity\Entity;
 use pocketmine\item\Item;
@@ -30,19 +30,19 @@ use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\ListTag;
 
-class TNTLauncher extends GUIItem {
+class PotatoGun extends GUIItem {
 
 	public function __construct(CosmeticGUIContainer $parent = null) {
-		parent::__construct(Item::get(Item::GUNPOWDER, 0, 1), $parent);
-		$this->setCustomName(Utils::translateColors("&l&cThrowable TNT"));
+		parent::__construct(Item::get(Item::POTATO, 0, 1), $parent);
+		$this->setCustomName(Utils::translateColors("&l&ePotato Launcher"));
 	}
 
 	public function getCooldown() : int {
-		return 160;
+		return 60;
 	}
 
 	public function onClick(CorePlayer $player) {
-		$e = Entity::createEntity("ThrowableTNT", $player->getLevel(), new CompoundTag("", [
+		$e = Entity::createEntity("LaunchedItem", $player->getLevel(), new CompoundTag("", [
 			"Pos" => new ListTag("Pos", [
 				new DoubleTag("", $player->x),
 				new DoubleTag("", $player->y),
@@ -57,10 +57,10 @@ class TNTLauncher extends GUIItem {
 				new FloatTag("", $player->yaw),
 				new FloatTag("", $player->pitch),
 			]),
-		]));
-		if($e instanceof ThrowableTNT) {
+		]), $this, $player);
+		if($e instanceof LaunchedItem) {
 			$e->spawnToAll();
-			$e->setMotion($e->getMotion()->multiply(1.1));
+			$e->setMotion($e->getMotion()->multiply(1.4));
 		} else {
 			$e->close();
 		}
