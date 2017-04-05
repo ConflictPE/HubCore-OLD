@@ -37,7 +37,7 @@ class CosmeticsSelector extends GUIItem {
 	}
 
 	public function onClick(CorePlayer $player) {
-		$player->addWindow($player->getGuiContainer(HubCorePlayer::GUI_TYPE_COSMETICS));
+		$player->addWindow($player->getGuiContainer(HubCorePlayer::GADGETS_CONTAINER));
 	}
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * HubCore – CosmeticGUIContainer.php
+ * HubCore – GadgetsContainer.php
  *
  * Copyright (C) 2017 Jack Noordhuis
  *
@@ -25,7 +25,7 @@ use hubcore\gui\item\gadgets\PotatoGun;
 use hubcore\gui\item\gadgets\TNTLauncher;
 use pocketmine\network\protocol\ContainerClosePacket;
 
-class CosmeticGUIContainer extends ChestGUI {
+class GadgetsContainer extends ChestGUI {
 
 	/** @var int|null */
 	protected $selectedSlot = null;

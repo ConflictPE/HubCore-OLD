@@ -22,7 +22,7 @@ use core\CorePlayer;
 use core\gui\item\GUIItem;
 use core\Utils;
 use hubcore\entity\ThrowableTNT;
-use hubcore\gui\containers\CosmeticGUIContainer;
+use hubcore\gui\containers\GadgetsContainer;
 use pocketmine\entity\Entity;
 use pocketmine\item\Item;
 use pocketmine\nbt\tag\CompoundTag;
@@ -32,7 +32,7 @@ use pocketmine\nbt\tag\ListTag;
 
 class TNTLauncher extends GUIItem {
 
-	public function __construct(CosmeticGUIContainer $parent = null) {
+	public function __construct(GadgetsContainer $parent = null) {
 		parent::__construct(Item::get(Item::GUNPOWDER, 0, 1), $parent);
 		$this->setCustomName(Utils::translateColors("&l&cThrowable TNT"));
 	}
