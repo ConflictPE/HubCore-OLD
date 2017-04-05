@@ -19,7 +19,7 @@
 namespace hubcore\gui\item;
 
 use core\CorePlayer;
-use core\gui\ChestGUI;
+use core\gui\container\ChestGUI;
 use core\gui\item\GUIItem;
 use core\Utils;
 use hubcore\HubCorePlayer;

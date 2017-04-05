@@ -19,7 +19,6 @@
 namespace hubcore;
 
 use core\CorePlayer;
-use core\gui\ChestGUI;
 use hubcore\entity\LaunchedItem;
 use hubcore\gui\containers\CosmeticGUIContainer;
 use pocketmine\event\block\BlockBreakEvent;
@@ -29,7 +28,6 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\Item;
-use pocketmine\network\SourceInterface;
 use pocketmine\utils\TextFormat;
 
 class HubCorePlayer extends CorePlayer {

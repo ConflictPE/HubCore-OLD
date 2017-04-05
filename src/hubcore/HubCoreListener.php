@@ -18,8 +18,6 @@
 
 namespace hubcore;
 
-use core\gui\ChestGUI;
-use core\gui\item\GUIItem;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerCreationEvent;
 use pocketmine\event\player\PlayerJoinEvent;

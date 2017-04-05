@@ -19,10 +19,10 @@
 namespace hubcore\gui\item;
 
 use core\CorePlayer;
-use core\gui\ChestGUI;
 use core\gui\item\GUIItem;
 use core\Utils;
 use hubcore\entity\LaunchedItem;
+use hubcore\gui\containers\CosmeticGUIContainer;
 use pocketmine\entity\Entity;
 use pocketmine\item\Item;
 use pocketmine\nbt\tag\CompoundTag;
@@ -32,7 +32,7 @@ use pocketmine\nbt\tag\ListTag;
 
 class PotatoGun extends GUIItem {
 
-	public function __construct(ChestGUI $parent = null) {
+	public function __construct(CosmeticGUIContainer $parent = null) {
 		parent::__construct(Item::get(Item::POTATO, 0, 1), $parent);
 		$this->setCustomName(Utils::translateColors("&l&ePotato Launcher"));
 	}
