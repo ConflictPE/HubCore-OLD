@@ -21,6 +21,7 @@ namespace hubcore;
 use core\CorePlayer;
 use hubcore\entity\LaunchedItem;
 use hubcore\gui\containers\GadgetsContainer;
+use hubcore\gui\containers\HubSelectionContainer;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
@@ -34,11 +35,13 @@ class HubCorePlayer extends CorePlayer {
 
 	/** Container types identifiers */
 	const GADGETS_CONTAINER = "gadgets";
+	const HUB_SELECTION_CONTAINER = "hub_selection";
 
 	public function initEntity() {
 		parent::initEntity();
 
 		$this->addGuiContainer(new GadgetsContainer($this), self::GADGETS_CONTAINER, true);
+		$this->addGuiContainer(new HubSelectionContainer($this), self::HUB_SELECTION_CONTAINER, true);
 	}
 
 	/**
@@ -49,12 +52,6 @@ class HubCorePlayer extends CorePlayer {
 		if($this->getState() === CorePlayer::STATE_LOBBY) {
 			if($item->getId() === Item::COMPASS) {
 				$this->sendMessage(TextFormat::GOLD . "- " . TextFormat::GREEN . "Coming soon...");
-			} elseif($item->getId() === Item::CLOCK) {
-				$this->setPlayersVisible(!$this->hasPlayersVisible());
-				$this->sendTranslatedMessage("TOGGLE_PLAYERS", [], true);
-			} elseif($item->getId() === Item::BED) {
-				$this->kill();
-				$this->sendTranslatedMessage("HUB_COMMAND", [], true);
 			} else {
 				parent::onInteract($event);
 			}
