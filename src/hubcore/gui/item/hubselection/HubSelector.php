@@ -40,7 +40,7 @@ class HubSelector extends GUIItem {
 	}
 
 	public function updateName() {
-		$server = Main::getInstance()->getNetworkManager()->getNodes()["Hub"]->getServers()[$this->hubId];
+		$server = $this->getNetworkServer();
 		$this->setCustomName(ChatUtil::centerPrecise(Utils::translateColors("&l&aHub #{$server->getId()} (&e{$server->getOnlinePlayers()}&a/&e{$server->getMaxPlayers()}&a)&r\n\n&l&eClick to connect!"), null));
 	}
 
@@ -48,12 +48,16 @@ class HubSelector extends GUIItem {
 		return 0;
 	}
 
+	public function getNetworkServer() {
+		return Main::getInstance()->getNetworkManager()->getNodes()["Hub"]->getServers()[$this->hubId];
+	}
+
 	public function onClick(CorePlayer $player) {
-		$server = Main::getInstance()->getNetworkManager()->getNodes()["Hub"]->getServers()[$this->hubId];
+		$server = $this->getNetworkServer();
 		$pk = new TransferPacket();
 		$pk->address = $server->getHost();
 		$pk->port = $server->getPort();
-		$player->dataPacket($pk);
+		$player->directDataPacket($pk);
 	}
 
 }

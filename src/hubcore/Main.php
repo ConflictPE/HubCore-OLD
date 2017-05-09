@@ -25,6 +25,7 @@ use hubcore\entity\ThrowableTNT;
 use hubcore\gui\item\CosmeticsSelector;
 use hubcore\gui\item\HubSelector;
 use hubcore\gui\item\playertoggle\TogglePlayersOff;
+use hubcore\gui\item\ServerSelector;
 use pocketmine\entity\Entity;
 use pocketmine\item\Item;
 use pocketmine\Player;
@@ -118,7 +119,7 @@ class Main extends PluginBase {
 	 */
 	public function setLobbyItems() {
 		$this->lobbyItems = [
-			Item::get(Item::COMPASS),
+			new ServerSelector(),
 			Item::get(Item::AIR),
 			Item::get(Item::AIR),
 			Item::get(Item::AIR),
