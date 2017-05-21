@@ -28,7 +28,7 @@ use pocketmine\item\Item;
 class TogglePlayersOff extends GUIItem {
 
 	public function __construct(ContainerGUI $parent = null) {
-		parent::__construct(Item::get(Item::DYE, Dye::GRAY, 1), $parent);
+		parent::__construct(Item::get(Item::DYE, Dye::LIME, 1), $parent);
 		$this->setCustomName(Utils::translateColors("&l&6Toggle players &c(off)&r"));
 	}
 
