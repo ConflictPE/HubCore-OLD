@@ -1,7 +1,7 @@
 <?php
 
 /**
- * HubCore – CosmeticsSelector.php
+ * HubCore – GadgetsSelector.php
  *
  * Copyright (C) 2017 Jack Noordhuis
  *
@@ -12,31 +12,29 @@
  *
  * @author JackNoordhuis
  *
- * Created on 11/5/17 at 6:25 PM
+ * Created on 02/04/2017 at 2:56 PM
  *
  */
 
-namespace hubcore\gui\item;
+namespace hubcore\gui\item\cosmetics;
 
 use core\CorePlayer;
 use core\gui\item\GUIItem;
 use core\Utils;
+use hubcore\gui\containers\CosmeticsContainer;
 use hubcore\HubCorePlayer;
 use pocketmine\item\Item;
 
-class CosmeticsSelector extends GUIItem {
+class GadgetsSelector extends GUIItem {
 
-	public function __construct($parent = null) {
-		parent::__construct(Item::get(Item::CHEST, 0, 1), $parent);
-		$this->setCustomName(Utils::translateColors("&l&aCosmetics"));
-	}
-
-	public function getCooldown() : int {
-		return 0;
+	public function __construct(CosmeticsContainer $parent = null) {
+		parent::__construct(Item::get(Item::BOW, 0, 1), $parent);
+		$this->setCustomName(Utils::translateColors("&l&eGadgets&r"));
 	}
 
 	public function onClick(CorePlayer $player) {
-		$player->addWindow($player->getGuiContainer(HubCorePlayer::COSMETICS_CONTAINER));
+		$player->removeWindow($this->getParent());
+		$player->addWindow($player->getGuiContainer(HubCorePlayer::GADGETS_CONTAINER));
 	}
 
 }

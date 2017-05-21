@@ -1,7 +1,7 @@
 <?php
 
 /**
- * HubCore – CosmeticsSelector.php
+ * HubCore – PetsSelector.php
  *
  * Copyright (C) 2017 Jack Noordhuis
  *
@@ -12,31 +12,30 @@
  *
  * @author JackNoordhuis
  *
- * Created on 11/5/17 at 6:25 PM
+ * Created on 11/5/17 at 12:54 PM
  *
  */
 
-namespace hubcore\gui\item;
+namespace hubcore\gui\item\cosmetics;
 
 use core\CorePlayer;
 use core\gui\item\GUIItem;
 use core\Utils;
+use hubcore\gui\containers\CosmeticsContainer;
 use hubcore\HubCorePlayer;
 use pocketmine\item\Item;
+use pocketmine\network\protocol\ContainerClosePacket;
 
-class CosmeticsSelector extends GUIItem {
+class PetsSelector extends GUIItem {
 
-	public function __construct($parent = null) {
-		parent::__construct(Item::get(Item::CHEST, 0, 1), $parent);
-		$this->setCustomName(Utils::translateColors("&l&aCosmetics"));
-	}
-
-	public function getCooldown() : int {
-		return 0;
+	public function __construct(CosmeticsContainer $parent = null) {
+		parent::__construct(Item::get(Item::CARROT_ON_A_STICK, 0, 1), $parent);
+		$this->setCustomName(Utils::translateColors("&l&ePets&r"));
 	}
 
 	public function onClick(CorePlayer $player) {
-		$player->addWindow($player->getGuiContainer(HubCorePlayer::COSMETICS_CONTAINER));
+		$player->removeWindow($this->getParent());
+		$player->addWindow($player->getGuiContainer(HubCorePlayer::PETS_CONTAINER));
 	}
 
 }

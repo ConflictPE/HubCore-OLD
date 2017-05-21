@@ -23,6 +23,7 @@ use hubcore\entity\LaunchedItem;
 use hubcore\entity\LaunchedPotato;
 use hubcore\entity\ThrowableTNT;
 use hubcore\gui\item\CosmeticsSelector;
+use hubcore\gui\item\GadgetsSelector;
 use hubcore\gui\item\HubSelector;
 use hubcore\gui\item\playertoggle\TogglePlayersOff;
 use hubcore\gui\item\ServerSelector;
@@ -57,6 +58,8 @@ class Main extends PluginBase {
 	public function onEnable() {
 		$components = $this->getServer()->getPluginManager()->getPlugin("Components");
 		if(!$components instanceof \core\Main) throw new PluginException("Components plugin isn't loaded!");
+		$components->setPetsManager(); // activate pets
+		$components->setParticleManager(); // activate particles
 		$this->components = $components;
 		if(!is_dir($this->getDataFolder() . "data")) @mkdir($this->getDataFolder() . "data");
 		if(!is_dir($this->getDataFolder() . "data" . DIRECTORY_SEPARATOR . "skins")) @mkdir($this->getDataFolder() . "data" . DIRECTORY_SEPARATOR . "skins");

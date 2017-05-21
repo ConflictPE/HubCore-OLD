@@ -20,7 +20,10 @@ namespace hubcore;
 
 use core\CorePlayer;
 use hubcore\entity\LaunchedItem;
-use hubcore\gui\containers\GadgetsContainer;
+use hubcore\gui\containers\cosmetics\GadgetsSelectionContainer;
+use hubcore\gui\containers\cosmetics\ParticleSelectionContainer;
+use hubcore\gui\containers\cosmetics\PetSelectionContainer;
+use hubcore\gui\containers\CosmeticsContainer;
 use hubcore\gui\containers\HubSelectionContainer;
 use hubcore\gui\containers\ServerSelectionContainer;
 use pocketmine\event\block\BlockBreakEvent;
@@ -30,19 +33,24 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\Item;
-use pocketmine\utils\TextFormat;
 
 class HubCorePlayer extends CorePlayer {
 
 	/** Container types identifiers */
-	const GADGETS_CONTAINER = "gadgets";
+	const COSMETICS_CONTAINER = "cosmetics_selection";
+	const GADGETS_CONTAINER = "cosmetics_gadgets_selection";
+	const PARTICLE_CONTAINER = "cosmetics_particle_selection";
+	const PETS_CONTAINER = "cosmetics_pets_selection";
 	const HUB_SELECTION_CONTAINER = "hub_selection";
 	const SERVER_SELECTION_CONTAINER = "server_selection";
 
 	public function initEntity() {
 		parent::initEntity();
 
-		$this->addGuiContainer(new GadgetsContainer($this), self::GADGETS_CONTAINER, true);
+		$this->addGuiContainer(new CosmeticsContainer($this), self::COSMETICS_CONTAINER, true);
+		$this->addGuiContainer(new GadgetsSelectionContainer($this), self::GADGETS_CONTAINER, true);
+		$this->addGuiContainer(new ParticleSelectionContainer($this), self::PARTICLE_CONTAINER, true);
+		$this->addGuiContainer(new PetSelectionContainer($this), self::PETS_CONTAINER, true);
 		$this->addGuiContainer(new HubSelectionContainer($this), self::HUB_SELECTION_CONTAINER, true);
 		$this->addGuiContainer(new ServerSelectionContainer($this), self::SERVER_SELECTION_CONTAINER, true);
 	}
